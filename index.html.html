@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Uptown Bistro | Fast Food & More!</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a5c3a;--green-dark:#123d28;--green-light:#2a7a50;
+  --orange:#f4a234;--orange-dark:#d4881a;--orange-light:#f7bc6a;
+  --cream:#fffbf0;--yellow:#ffe566;--pink:#ff6b9d;--teal:#2dd4bf;
+  --white:#fff;--text:#1a1a1a;--muted:#555;
+  --font-display:'Fredoka One',cursive;
+  --font-body:'Nunito',sans-serif;
+  --radius:12px;--radius-lg:20px;--radius-xl:32px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);overflow-x:hidden}
+
+/* WOBBLE ANIMATION */
+@keyframes wobble{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pop{0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--green-dark);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:70px;box-shadow:0 4px 0 var(--orange)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:44px;height:44px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;animation:wobble 3s ease-in-out infinite}
+.logo-name{font-family:var(--font-display);font-size:22px;color:var(--white);letter-spacing:1px}
+.logo-name span{color:var(--orange)}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a{color:#ccc;text-decoration:none;font-size:14px;font-weight:700;padding:8px 14px;border-radius:50px;transition:all 0.2s}
+.nav-links a:hover{color:var(--green-dark);background:var(--orange)}
+.nav-order{background:var(--orange);color:var(--green-dark)!important;padding:8px 20px!important;border-radius:50px!important}
+.nav-order:hover{background:var(--orange-light)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.hamburger span{width:24px;height:2px;background:#fff}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--green-dark);display:flex;align-items:center;padding:90px 5% 60px;position:relative;overflow:hidden}
+.hero-blobs{position:absolute;inset:0;pointer-events:none}
+.blob{position:absolute;border-radius:50%;opacity:0.12}
+.blob1{width:400px;height:400px;background:var(--orange);top:-100px;right:-100px}
+.blob2{width:300px;height:300px;background:var(--yellow);bottom:-80px;left:-80px}
+.blob3{width:200px;height:200px;background:var(--teal);top:40%;right:10%}
+.hero-content{position:relative;z-index:1;max-width:600px}
+.hero-emoji{font-size:48px;margin-bottom:16px;display:block;animation:float 3s ease-in-out infinite}
+.hero-tag{display:inline-block;background:var(--orange);color:var(--green-dark);font-size:13px;font-weight:800;padding:6px 18px;border-radius:50px;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase}
+.hero-title{font-family:var(--font-display);font-size:clamp(48px,8vw,96px);color:var(--white);line-height:1;margin-bottom:8px}
+.hero-title .wave{color:var(--orange)}
+.hero-title .pop{color:var(--yellow)}
+.hero-sub{color:#a8c8b0;font-size:18px;line-height:1.6;margin-bottom:32px;font-weight:600}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-fun{padding:14px 32px;border-radius:50px;font-size:15px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;border:none;cursor:pointer;letter-spacing:0.5px}
+.btn-green{background:var(--orange);color:var(--green-dark)}
+.btn-green:hover{background:var(--orange-light);transform:translateY(-3px);box-shadow:0 8px 24px rgba(244,162,52,0.4)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.4)}
+.btn-outline:hover{background:rgba(255,255,255,0.1);transform:translateY(-3px)}
+.hero-right{position:absolute;right:5%;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px;z-index:1}
+.hero-card{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:var(--radius-lg);padding:16px 20px;color:#fff;backdrop-filter:blur(8px);animation:float 3s ease-in-out infinite}
+.hero-card:nth-child(2){animation-delay:1s}
+.hero-card:nth-child(3){animation-delay:2s}
+.hero-card .num{font-family:var(--font-display);font-size:32px;color:var(--orange)}
+.hero-card .label{font-size:12px;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+
+/* STRIP */
+.strip{background:var(--orange);padding:14px 5%;display:flex;justify-content:center;gap:50px;flex-wrap:wrap}
+.strip-item{display:flex;align-items:center;gap:8px;color:var(--green-dark);font-weight:800;font-size:14px}
+.strip-item span{font-size:18px}
+
+/* ABOUT */
+.about{padding:80px 5%;background:var(--white)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto}
+.about-img-area{position:relative}
+.about-img{width:100%;height:420px;object-fit:cover;border-radius:var(--radius-xl);display:block;border:4px solid var(--orange)}
+.about-sticker{position:absolute;top:-20px;right:-20px;background:var(--yellow);color:var(--green-dark);padding:16px;border-radius:50%;width:90px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-display);text-align:center;font-size:12px;line-height:1.2;transform:rotate(12deg);box-shadow:0 4px 12px rgba(0,0,0,0.15);animation:wobble 4s ease-in-out infinite}
+.about-sticker big{font-size:22px;display:block}
+.section-tag{display:inline-block;background:var(--orange);color:var(--green-dark);font-size:12px;font-weight:800;padding:4px 16px;border-radius:50px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.section-title{font-family:var(--font-display);font-size:clamp(32px,4vw,52px);line-height:1.1;margin-bottom:14px;color:var(--green-dark)}
+.section-sub{color:var(--muted);font-size:16px;line-height:1.7;margin-bottom:28px}
+.fun-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.fun-list li{display:flex;align-items:flex-start;gap:12px;font-size:15px;font-weight:600}
+.fun-list li .icon{width:36px;height:36px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.brands{margin-top:32px;display:flex;flex-wrap:wrap;gap:10px}
+.brand-pill{background:var(--green-dark);color:#fff;padding:6px 16px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:0.5px}
+
+/* MENU */
+.menu{padding:80px 5%;background:var(--cream)}
+.menu-header{text-align:center;margin-bottom:20px}
+.menu-tabs{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.tab{padding:10px 24px;border-radius:50px;font-size:14px;font-weight:800;cursor:pointer;border:2.5px solid var(--green-dark);background:transparent;color:var(--green-dark);transition:all 0.2s;font-family:var(--font-body)}
+.tab.active,.tab:hover{background:var(--green-dark);color:var(--white)}
+.menu-section{margin-bottom:52px}
+.menu-section-title{font-family:var(--font-display);font-size:32px;color:var(--green-dark);display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.menu-section-title .emoji{font-size:28px}
+.menu-note{font-size:13px;color:var(--muted);margin-bottom:20px;font-weight:600}
+.menu-col-header{display:grid;grid-template-columns:1fr 80px 80px;gap:8px;padding:8px 16px;background:var(--green-dark);color:#fff;border-radius:var(--radius);font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.menu-col-header span:not(:first-child){text-align:center}
+.menu-item{display:grid;grid-template-columns:1fr 80px 80px;gap:8px;padding:12px 16px;border-radius:var(--radius);font-size:15px;font-weight:600;transition:all 0.2s;align-items:center;border:1.5px solid transparent}
+.menu-item:nth-child(odd){background:#fff}
+.menu-item:hover{border-color:var(--orange);background:var(--orange-light);transform:translateX(4px)}
+.menu-item-name{color:var(--text)}
+.menu-item-price{text-align:center;font-family:var(--font-display);font-size:16px;color:var(--green-dark)}
+.menu-item-price.na{color:#ccc;font-size:13px;font-family:var(--font-body)}
+.single-price{font-family:var(--font-display);font-size:17px;color:var(--green-dark)}
+.menu-grid-simple{display:flex;flex-direction:column;gap:4px}
+
+/* CONTACT */
+.contact{padding:80px 5%;background:var(--green-dark);color:#fff}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1100px;margin:0 auto}
+.contact .section-title{color:#fff}
+.contact .section-sub{color:#a8c8b0}
+.contact-cards{display:flex;flex-direction:column;gap:16px;margin-top:20px}
+.contact-card{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:var(--radius-lg);padding:20px 24px;display:flex;align-items:flex-start;gap:16px}
+.contact-card .icon{width:44px;height:44px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--green-dark);font-size:18px;flex-shrink:0}
+.contact-card h4{font-weight:800;font-size:15px;color:#fff;margin-bottom:4px}
+.contact-card p{font-size:14px;color:#a8c8b0;line-height:1.5}
+.contact-form{background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);border-radius:var(--radius-xl);padding:36px}
+.form-title{font-family:var(--font-display);font-size:26px;color:var(--orange);margin-bottom:24px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:13px;font-weight:800;color:#a8c8b0;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 16px;border-radius:var(--radius);border:2px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#fff;font-family:var(--font-body);font-size:15px;outline:none;transition:border-color 0.2s}
+.form-group input::placeholder,.form-group textarea::placeholder{color:#666}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--orange)}
+.form-group textarea{resize:vertical;min-height:110px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.btn-submit{width:100%;padding:14px;border-radius:50px;background:var(--orange);color:var(--green-dark);font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:var(--font-body);transition:all 0.2s;margin-top:8px}
+.btn-submit:hover{background:var(--orange-light);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:#0d3320;color:#a8c8b0;padding:50px 5% 24px;text-align:center}
+.footer-logo{font-family:var(--font-display);font-size:32px;color:#fff;margin-bottom:8px}
+.footer-logo span{color:var(--orange)}
+.footer-tagline{font-size:15px;margin-bottom:24px}
+.footer-links{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.footer-links a{color:#a8c8b0;text-decoration:none;font-size:14px;font-weight:700;padding:6px 16px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.12);transition:all 0.2s}
+.footer-links a:hover{color:#fff;background:var(--green-light)}
+.footer-social{display:flex;justify-content:center;gap:12px;margin-bottom:32px}
+.soc-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:#a8c8b0;text-decoration:none;font-size:16px;transition:all 0.2s}
+.soc-btn:hover{background:var(--orange);color:var(--green-dark)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;font-size:13px;color:#666}
+.footer-brands{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.fb-pill{background:rgba(255,255,255,0.06);color:#a8c8b0;padding:5px 14px;border-radius:50px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,0.1)}
+
+/* PARTY BANNER */
+.party-banner{background:var(--orange);padding:20px 5%;text-align:center}
+.party-banner p{font-family:var(--font-display);font-size:22px;color:var(--green-dark)}
+.party-banner small{font-size:14px;font-weight:700;color:var(--green-dark);opacity:0.7}
+
+/* TOAST */
+#toast{position:fixed;bottom:30px;right:30px;background:var(--green-dark);color:#fff;padding:14px 22px;border-radius:50px;font-size:14px;font-weight:800;display:none;align-items:center;gap:10px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.3);border:2px solid var(--orange);animation:pop 0.3s ease}
+
+/* MOBILE */
+@media(max-width:900px){
+  .hero-right{display:none}
+  .about-inner,.contact-inner{grid-template-columns:1fr}
+  .about-img-area{display:none}
+  .form-row{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+}
+@media(max-width:600px){
+  .strip{gap:20px}
+  .menu-col-header,.menu-item{grid-template-columns:1fr 70px 70px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="logo-icon">🍴</div>
+    <span class="logo-name">Uptown <span>Bistro</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#contact">Contact</a>
+    <a href="tel:+91XXXXXXXXXX" class="nav-order">📞 Call Us</a>
+  </div>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blobs">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+  </div>
+  <div class="hero-content">
+    <span class="hero-emoji">🍜</span>
+    <div class="hero-tag">⚡ Fast Food · Cloud Kitchen</div>
+    <h1 class="hero-title">
+      <span class="wave">Uptown</span><br>
+      <span class="pop">Bistro!</span>
+    </h1>
+    <p class="hero-sub">Noodles, rice, starters & more — made fresh,<br/>served fast, eaten happily! 😋</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-fun btn-green">🍽️ Explore Menu</a>
+      <a href="#contact" class="btn-fun btn-outline">📍 Find Us</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="num">30+</div>
+      <div class="label">Menu Items</div>
+    </div>
+    <div class="hero-card">
+      <div class="num">₹70</div>
+      <div class="label">Starting At</div>
+    </div>
+    <div class="hero-card">
+      <div class="num">7</div>
+      <div class="label">Brands Under One Roof</div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-item"><span>🥢</span> Noodles & Rice</div>
+  <div class="strip-item"><span>🍗</span> Veg & Non-Veg</div>
+  <div class="strip-item"><span>🎉</span> Party Orders Welcome</div>
+  <div class="strip-item"><span>🏢</span> Corporate Orders</div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-img-area">
+      <img class="about-img" src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80" alt="Uptown Bistro Kitchen"/>
+      <div class="about-sticker"><big>😍</big>Fan<br/>Favourite!</div>
+    </div>
+    <div>
+      <span class="section-tag">Who We Are</span>
+      <h2 class="section-title">Where Every Bite is a Good Time! 🎊</h2>
+      <p class="section-sub">Uptown Bistro is your go-to cloud kitchen for bold Indo-Chinese flavours — from sizzling starters to saucy noodles and comforting rice dishes. Made fresh with love and a whole lot of spice!</p>
+      <ul class="fun-list">
+        <li><div class="icon">🌿</div><span>Veg & Non-Veg options for everyone at the table</span></li>
+        <li><div class="icon">🔥</div><span>Bold flavours — Schezwan, Manchurian, Garlic & more</span></li>
+        <li><div class="icon">🎂</div><span>Party & Corporate bulk orders always welcome</span></li>
+        <li><div class="icon">🍕</div><span>7 unique brands — Pizza, Burgers, Momos, Maggi & more!</span></li>
+      </ul>
+      <div class="brands">
+        <span class="brand-pill">🍕 Uptown Pizza</span>
+        <span class="brand-pill">🍔 Uptown Burgers & Breads</span>
+        <span class="brand-pill">🍗 Uptown Crunchy Chicken Hub</span>
+        <span class="brand-pill">🥟 Uptown Indo Tibetan Momo's</span>
+        <span class="brand-pill">🍜 Uptown Bistro</span>
+        <span class="brand-pill">🥣 Uptown Bowls</span>
+        <span class="brand-pill">🍝 Uptown Maggi's</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="menu-header">
+    <span class="section-tag">What's Cooking</span>
+    <h2 class="section-title">Our Yummy Menu 😋</h2>
+    <p style="color:var(--muted);font-size:15px;font-weight:600">All prices in ₹ · Half & Full portions available</p>
+  </div>
+  <div class="menu-tabs">
+    <button class="tab active" onclick="showTab('all',this)">🍽️ All</button>
+    <button class="tab" onclick="showTab('starters',this)">🥘 Starters</button>
+    <button class="tab" onclick="showTab('rice',this)">🍚 Rice</button>
+    <button class="tab" onclick="showTab('noodles',this)">🍜 Noodles</button>
+  </div>
+
+  <!-- STARTERS -->
+  <div class="menu-section" id="sec-starters">
+    <div class="menu-section-title"><span class="emoji">🥘</span> Starter's</div>
+    <p class="menu-note">*Double Egg Omlett & Double Egg Burji are single portions only</p>
+    <div class="menu-col-header">
+      <span>Item</span><span>Half</span><span>Full</span>
+    </div>
+    <div class="menu-grid-simple">
+      <div class="menu-item"><span class="menu-item-name">Veg Manchurian</span><span class="menu-item-price">90</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Veg 65</span><span class="menu-item-price">90</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Veg Chilli</span><span class="menu-item-price">90</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Mushroom 65</span><span class="menu-item-price">140</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chilli Mushroom</span><span class="menu-item-price">140</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chilli Paneer</span><span class="menu-item-price">140</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Paneer 65</span><span class="menu-item-price">140</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chicken Manchurian</span><span class="menu-item-price">120</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chicken 65</span><span class="menu-item-price">120</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chilli Chicken</span><span class="menu-item-price">120</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Garlic Chicken</span><span class="menu-item-price">130</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Ginger Chicken</span><span class="menu-item-price">130</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Pepper Chicken</span><span class="menu-item-price">130</span><span class="menu-item-price">200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Omlett</span><span class="single-price" style="grid-column:span 2;text-align:center">50 /-</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Burji</span><span class="single-price" style="grid-column:span 2;text-align:center">60 /-</span></div>
+    </div>
+  </div>
+
+  <!-- RICE -->
+  <div class="menu-section" id="sec-rice">
+    <div class="menu-section-title"><span class="emoji">🍚</span> Rice</div>
+    <div class="menu-col-header"><span>Item</span><span>Half</span><span>Full</span></div>
+    <div class="menu-grid-simple">
+      <div class="menu-item"><span class="menu-item-name">Jeera Rice</span><span class="menu-item-price">70</span><span class="menu-item-price">130</span></div>
+      <div class="menu-item"><span class="menu-item-name">Veg Fried Rice</span><span class="menu-item-price">80</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chilli Garlic Fried Rice</span><span class="menu-item-price">80</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Egg Fried Rice</span><span class="menu-item-price">80</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Fried Rice</span><span class="menu-item-price">90</span><span class="menu-item-price">150</span></div>
+      <div class="menu-item"><span class="menu-item-name">Manchurian Rice</span><span class="menu-item-price">90</span><span class="menu-item-price">150</span></div>
+      <div class="menu-item"><span class="menu-item-name">Egg Manchurian Rice</span><span class="menu-item-price">100</span><span class="menu-item-price">150</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Manchurian Rice</span><span class="menu-item-price">110</span><span class="menu-item-price">160</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chicken Fried Rice</span><span class="menu-item-price">90</span><span class="menu-item-price">150</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Chicken Fried Rice</span><span class="menu-item-price">100</span><span class="menu-item-price">160</span></div>
+      <div class="menu-item"><span class="menu-item-name">Schezwan Fried Rice</span><span class="menu-item-price">90</span><span class="menu-item-price">150</span></div>
+      <div class="menu-item"><span class="menu-item-name">Egg Schezwan Fried Rice</span><span class="menu-item-price">100</span><span class="menu-item-price">160</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Schezwan Fried Rice</span><span class="menu-item-price">110</span><span class="menu-item-price">180</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chicken Schezwan Fried Rice</span><span class="menu-item-price">110</span><span class="menu-item-price">170</span></div>
+      <div class="menu-item"><span class="menu-item-name">Paneer Fried Rice</span><span class="menu-item-price">100</span><span class="menu-item-price">160</span></div>
+    </div>
+  </div>
+
+  <!-- NOODLES -->
+  <div class="menu-section" id="sec-noodles">
+    <div class="menu-section-title"><span class="emoji">🍜</span> Noodles</div>
+    <div class="menu-col-header"><span>Item</span><span>Half</span><span>Full</span></div>
+    <div class="menu-grid-simple">
+      <div class="menu-item"><span class="menu-item-name">Veg Noodles</span><span class="menu-item-price">80</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chilli Garlic Noodles</span><span class="menu-item-price">80</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Egg Noodles</span><span class="menu-item-price">80</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Noodles</span><span class="menu-item-price">90</span><span class="menu-item-price">150</span></div>
+      <div class="menu-item"><span class="menu-item-name">Manchurian Noodles</span><span class="menu-item-price">90</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Egg Manchurian Noodles</span><span class="menu-item-price">100</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Manchurian Noodle</span><span class="menu-item-price">110</span><span class="menu-item-price">160</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chicken Noodles</span><span class="menu-item-price">90</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Chicken Noodle</span><span class="menu-item-price">100</span><span class="menu-item-price">160</span></div>
+      <div class="menu-item"><span class="menu-item-name">Veg Schezwan Noodles</span><span class="menu-item-price">90</span><span class="menu-item-price">140</span></div>
+      <div class="menu-item"><span class="menu-item-name">Egg Schezwan Noodle</span><span class="menu-item-price">100</span><span class="menu-item-price">160</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Schezwan Noodles</span><span class="menu-item-price">110</span><span class="menu-item-price">180</span></div>
+      <div class="menu-item"><span class="menu-item-name">Double Egg Chicken Schezwan Noodles</span><span class="menu-item-price">120</span><span class="menu-item-price">180</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chicken Schezwan Noodles</span><span class="menu-item-price">100</span><span class="menu-item-price">160</span></div>
+      <div class="menu-item"><span class="menu-item-name">Paneer Noodles</span><span class="menu-item-price">90</span><span class="menu-item-price">160</span></div>
+      <div class="menu-item"><span class="menu-item-name">Paneer Schezwan Noodles</span><span class="menu-item-price">100</span><span class="menu-item-price">180</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTY BANNER -->
+<div class="party-banner">
+  <p>🎉 We Undertake Party & Corporate Orders!</p>
+  <small>Call us to discuss bulk orders, custom menus & special pricing</small>
+</div>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div>
+      <span class="section-tag">Get in Touch</span>
+      <h2 class="section-title">Come Say Hello! 👋</h2>
+      <p class="section-sub">Have a question, a big order, or just want to say hi? We're always happy to hear from you!</p>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <h4>Find Us</h4>
+            <p>MVB's Cloud Kitchen<br/>Delhi NCR — Order on Zomato with #BFF</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon"><i class="fas fa-clock"></i></div>
+          <div>
+            <h4>Opening Hours</h4>
+            <p>Mon – Sun: 10:00 AM – 11:00 PM<br/>Party orders: anytime with advance notice</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon"><i class="fab fa-whatsapp"></i></div>
+          <div>
+            <h4>WhatsApp / Call</h4>
+            <p>Drop us a message for party orders,<br/>feedback or anything!</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon" style="background:var(--pink);color:#fff"><i class="fas fa-utensils"></i></div>
+          <div>
+            <h4>Order Online</h4>
+            <p>Find us on <strong style="color:var(--orange)">Zomato</strong> — search Uptown Bistro<br/>or any of our 7 brands!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-title">Send Us a Message 💌</div>
+      <div class="form-row">
+        <div class="form-group"><label>Your Name</label><input type="text" placeholder="e.g. Rahul Sharma"/></div>
+        <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 98765 XXXXX"/></div>
+      </div>
+      <div class="form-group"><label>Subject</label>
+        <select style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#aaa;font-family:var(--font-body);font-size:15px;outline:none">
+          <option value="">Choose a topic...</option>
+          <option>Party / Bulk Order Enquiry</option>
+          <option>Corporate Order</option>
+          <option>Feedback</option>
+          <option>General Question</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message</label><textarea placeholder="Tell us what you need — we're all ears! 👂"></textarea></div>
+      <button class="btn-submit" onclick="submitForm()">🚀 Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Uptown <span>Bistro</span> 🍴</div>
+  <p class="footer-tagline">Fast Food · Cloud Kitchen · Delhi NCR 🌆</p>
+  <div class="footer-brands">
+    <span class="fb-pill">🍕 Uptown Pizza</span>
+    <span class="fb-pill">🍔 Uptown Burgers & Breads</span>
+    <span class="fb-pill">🍗 Uptown Crunchy Chicken Hub</span>
+    <span class="fb-pill">🥟 Uptown Indo Tibetan Momo's</span>
+    <span class="fb-pill">🥣 Uptown Bowls</span>
+    <span class="fb-pill">🍝 Uptown Maggi's</span>
+  </div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-social">
+    <a class="soc-btn" href="#"><i class="fab fa-instagram"></i></a>
+    <a class="soc-btn" href="#"><i class="fab fa-facebook-f"></i></a>
+    <a class="soc-btn" href="#"><i class="fab fa-whatsapp"></i></a>
+  </div>
+  <div class="footer-bottom">© 2025 Uptown Bistro · MVB's Cloud Kitchen · All rights reserved 💚</div>
+</footer>
+
+<div id="toast" style="position:fixed;bottom:30px;right:30px;background:var(--green-dark);color:#fff;padding:14px 22px;border-radius:50px;font-size:14px;font-weight:800;display:none;align-items:center;gap:10px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.3);border:2px solid var(--orange)">
+  ✅ <span id="toastMsg">Message sent!</span>
+</div>
+
+<script>
+  function showTab(tab, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const sections = ['starters','rice','noodles'];
+    sections.forEach(s => {
+      const el = document.getElementById('sec-' + s);
+      el.style.display = (tab === 'all' || tab === s) ? 'block' : 'none';
+    });
+  }
+  function submitForm() {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = "Thanks! We'll get back to you soon 🎉";
+    t.style.display = 'flex';
+    setTimeout(() => t.style.display = 'none', 3000);
+  }
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.background = window.scrollY > 60 ? '#0a2918' : 'var(--green-dark)';
+  });
+</script>
+</body>
+</html>
